@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="talent.plantmonitor.DataActivity"
+    android:orientation="vertical"
+    android:background="@color/blue">
+
+    <TextView
+        android:id="@+id/text_plant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/optimal_conditions"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"/>
+
+    <ImageView
+        android:layout_width="192dp"
+        android:layout_height="192dp"
+        android:id="@+id/img_plant"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <!--android:layout_marginBottom="10dp">-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon_opt_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sun"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/text_opt_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Optimal Sunlight"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/text_real_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_light"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/icon_opt_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_water"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/text_opt_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Optimal Moisture"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/text_real_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_water"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+        <!-- Right side spacer -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/icon_opt_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_temp"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/text_opt_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_temp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/text_real_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_temp"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/icon_opt_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cond"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/text_opt_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_cond"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/text_real_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/temp_reading_cond"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

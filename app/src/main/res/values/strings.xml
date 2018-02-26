@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Plant Monitor</string>
+    <string name="optimal_conditions">Optimal Conditions</string>
+    <string name="temp_reading_light">Sunlight Reading</string>
+    <string name="temp_reading_water">Moisture Reading</string>
+    <string name="temp_reading_temp">Temperature Reading</string>
+    <string name="temp_reading_cond">Conductivity Reading</string>
+    
+    <string name="real_reading_light">%1$d lux</string>
+    <string name="real_reading_water">%1$d\%</string>
+    <string name="real_reading_temp">%1$f \u00B0 C</string>
+    <string name="real_reading_cond">%1$d uS/cm</string>
+</resources>

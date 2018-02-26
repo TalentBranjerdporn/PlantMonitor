@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blue"
+    tools:context="talent.plantmonitor.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--android:layout_marginBottom="10dp">-->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sun"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/text_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sunlight Reading"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/icon_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_water"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/text_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moisture Reading"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+        </LinearLayout>
+        <!-- Right side spacer -->
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/icon_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_temp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/text_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Temperature Reading"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageView
+                android:id="@+id/icon_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_cond"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"/>
+            <TextView
+                android:id="@+id/text_cond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conductivity Reading"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#333"
+        android:dividerHeight="1dp">
+
+    </ListView>
+</LinearLayout>
