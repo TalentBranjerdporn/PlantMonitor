@@ -13,6 +13,10 @@ public class DatabaseClass {
     public static double sensTemp = 25;
     public static int sensCond = 240;
 
+    public static final String KEY_CONTACTS = "Sheet1";
+    public static final String KEY_NAME = "Column_1";
+    public static final String KEY_COUNTRY = "Column_2";
+
     public static void updateReadings() {
         Random rnd = new Random();
         sensLight = rnd.nextInt(100000);

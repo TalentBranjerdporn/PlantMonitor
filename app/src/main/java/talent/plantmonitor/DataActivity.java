@@ -177,5 +177,4 @@ public class DataActivity extends AppCompatActivity {
             realCond.setTextColor(getResources().getColor(R.color.green));
         }
     }
-
 }

@@ -1,18 +1,30 @@
 package talent.plantmonitor;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import talent.plantmonitor.parser.JSONParser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Timer for updating
     private Timer autoUpdate;
+
+    // list for reading data from database
+    private ArrayList<String> list1;
+    private ArrayList<String> list2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
         water.setText("60%");
         temp.setText("26.8");
         cond.setText("236uS/cm");
+
+        list1 = new ArrayList<String>();
+        list2 = new ArrayList<String>();
+        new GetDataTask().execute();
     }
 
     @Override
@@ -92,5 +112,116 @@ public class MainActivity extends AppCompatActivity {
         water.setText(Integer.toString(DatabaseClass.sensWater) + "%");
         temp.setText(Double.toString(DatabaseClass.sensTemp) + "\u00B0C");
         cond.setText(Integer.toString(DatabaseClass.sensCond) + " uS/cm");
+    }
+
+    /**
+     * Creating Get Data Task for Getting Data From Web
+     */
+    class GetDataTask extends AsyncTask<Void, Void, Void> {
+
+        ProgressDialog dialog;
+        int jIndex;
+        int x,y;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            x = list1.size();
+            y = list2.size();
+
+            if(x==0)
+                jIndex=0;
+            else
+                jIndex=x;
+
+            Log.d("DataTask","Made it here");
+        }
+
+        @Nullable
+        @Override
+        protected Void doInBackground(Void... params) {
+            JSONObject jsonObject = JSONParser.getDataFromWeb();
+
+            Log.d("DataTask","DoInBackground");
+
+            try {
+                if (jsonObject != null) {
+                    /**
+                     * Check Length...
+                     */
+                    if(jsonObject.length() > 0) {
+                        /**
+                         * Getting Array named "contacts" From MAIN Json Object
+                         */
+                        JSONArray array = jsonObject.getJSONArray(DatabaseClass.KEY_CONTACTS);
+
+                        /**
+                         * Check Length of Array...
+                         */
+
+
+                        int lenArray = array.length();
+                        if(lenArray > 0) {
+                            for( ; jIndex < lenArray; jIndex++) {
+
+                                /**
+                                 * Creating Every time New Object
+                                 * and
+                                 * Adding into List
+                                 */
+                                //MyDataModel model = new MyDataModel();
+
+                                /**
+                                 * Getting Inner Object from contacts array...
+                                 * and
+                                 * From that We will get Name of that Contact
+                                 *
+                                 */
+                                JSONObject innerObject = array.getJSONObject(jIndex);
+                                String name = innerObject.getString(DatabaseClass.KEY_NAME);
+                                String country = innerObject.getString(DatabaseClass.KEY_COUNTRY);
+
+                                Log.d("datatask", "doInBackground:" + name + " - " + country);
+
+                                /**
+                                 * Getting Object from Object "phone"
+                                 */
+                                //JSONObject phoneObject = innerObject.getJSONObject(Keys.KEY_PHONE);
+                                //String phone = phoneObject.getString(Keys.KEY_MOBILE);
+
+//                                model.setName(name);
+//                                model.setCountry(country);
+
+                                /**
+                                 * Adding name and phone concatenation in List...
+                                 */
+                                list1.add(name);
+                                list2.add(country);
+                            }
+                        }
+                    }
+                } else {
+
+                }
+            } catch (JSONException je) {
+                Log.i(JSONParser.TAG, "" + je.getLocalizedMessage());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            /**
+             * Checking if List size if more than zero then
+             * Update ListView
+             */
+            if(list1.size() > 0) {
+                Toast.makeText(MainActivity.this, list1.get(0), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, "None", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
