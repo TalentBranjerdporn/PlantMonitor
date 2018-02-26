@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import talent.plantmonitor.Model.SensorModel;
 import talent.plantmonitor.parser.JSONParser;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Timer for updating
     private Timer autoUpdate;
-
-    // list for reading data from database
-    private ArrayList<String> list1;
-    private ArrayList<String> list2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
         temp.setText("26.8");
         cond.setText("236uS/cm");
 
-        list1 = new ArrayList<String>();
-        list2 = new ArrayList<String>();
-        new GetDataTask().execute();
+        DatabaseClass.sensorModels = new ArrayList<SensorModel>();
+
+//        new GetDataTask().execute();
     }
 
     @Override
@@ -97,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 0, 5000); // updates each 5 secs
+        }, 0, 10000); // updates each 5 secs
     }
 
     @Override
@@ -107,11 +104,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update() {
-        DatabaseClass.updateReadings();
+        //DatabaseClass.updateReadings();
+        new GetDataTask().execute();
         light.setText(Integer.toString(DatabaseClass.sensLight) + " lux");
         water.setText(Integer.toString(DatabaseClass.sensWater) + "%");
         temp.setText(Double.toString(DatabaseClass.sensTemp) + "\u00B0C");
         cond.setText(Integer.toString(DatabaseClass.sensCond) + " uS/cm");
+
+        if (DatabaseClass.sensorModels.size() > 0) {
+            int readLight = DatabaseClass.sensorModels.get(DatabaseClass.sensorModels.size()-1).getLight();
+            int readWater = DatabaseClass.sensorModels.get(DatabaseClass.sensorModels.size()-1).getWater();
+            double readTemp = DatabaseClass.sensorModels.get(DatabaseClass.sensorModels.size()-1).getTemp();
+            int readCond = DatabaseClass.sensorModels.get(DatabaseClass.sensorModels.size()-1).getCond();
+            light.setText(Integer.toString(readLight) + " lux");
+            water.setText(Integer.toString(readWater) + "%");
+            temp.setText(String.format("%.2f\u00B0C", readTemp));
+            cond.setText(Integer.toString(readCond) + " uS/cm");
+        }
     }
 
     /**
@@ -121,14 +130,13 @@ public class MainActivity extends AppCompatActivity {
 
         ProgressDialog dialog;
         int jIndex;
-        int x,y;
+        int x;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            x = list1.size();
-            y = list2.size();
+            x = DatabaseClass.sensorModels.size();
 
             if(x==0)
                 jIndex=0;
@@ -154,50 +162,33 @@ public class MainActivity extends AppCompatActivity {
                         /**
                          * Getting Array named "contacts" From MAIN Json Object
                          */
-                        JSONArray array = jsonObject.getJSONArray(DatabaseClass.KEY_CONTACTS);
+                        JSONArray array = jsonObject.getJSONArray(DatabaseClass.KEY_SHEET);
 
                         /**
                          * Check Length of Array...
                          */
-
-
                         int lenArray = array.length();
+
+                        Log.d(JSONParser.TAG, "doInBackground: length = " + lenArray + " jIndex = " + jIndex);
                         if(lenArray > 0) {
                             for( ; jIndex < lenArray; jIndex++) {
-
-                                /**
-                                 * Creating Every time New Object
-                                 * and
-                                 * Adding into List
-                                 */
-                                //MyDataModel model = new MyDataModel();
-
-                                /**
-                                 * Getting Inner Object from contacts array...
-                                 * and
-                                 * From that We will get Name of that Contact
-                                 *
-                                 */
                                 JSONObject innerObject = array.getJSONObject(jIndex);
-                                String name = innerObject.getString(DatabaseClass.KEY_NAME);
-                                String country = innerObject.getString(DatabaseClass.KEY_COUNTRY);
+                                int time = innerObject.getInt(DatabaseClass.KEY_TIME);
+                                int light = innerObject.getInt(DatabaseClass.KEY_LIGHT);
+                                int water = innerObject.getInt(DatabaseClass.KEY_WATER);
+                                double temp = innerObject.getDouble(DatabaseClass.KEY_TEMP);
+                                int cond = innerObject.getInt(DatabaseClass.KEY_COND);
 
-                                Log.d("datatask", "doInBackground:" + name + " - " + country);
+                                SensorModel model = new SensorModel();
+                                model.setTime(time);
+                                model.setLight(light);
+                                model.setWater(water);
+                                model.setTemp(temp);
+                                model.setCond(cond);
 
-                                /**
-                                 * Getting Object from Object "phone"
-                                 */
-                                //JSONObject phoneObject = innerObject.getJSONObject(Keys.KEY_PHONE);
-                                //String phone = phoneObject.getString(Keys.KEY_MOBILE);
+                                Log.d(JSONParser.TAG, "doInBackground:" + model);
 
-//                                model.setName(name);
-//                                model.setCountry(country);
-
-                                /**
-                                 * Adding name and phone concatenation in List...
-                                 */
-                                list1.add(name);
-                                list2.add(country);
+                                DatabaseClass.sensorModels.add(model);
                             }
                         }
                     }
@@ -217,10 +208,11 @@ public class MainActivity extends AppCompatActivity {
              * Checking if List size if more than zero then
              * Update ListView
              */
-            if(list1.size() > 0) {
-                Toast.makeText(MainActivity.this, list1.get(0), Toast.LENGTH_SHORT).show();
+            if(DatabaseClass.sensorModels.size() > 0) {
+                //Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                Log.d(JSONParser.TAG, "onPostExecute: " + DatabaseClass.sensorModels.get(DatabaseClass.sensorModels.size()-1).getLight());
             } else {
-                Toast.makeText(MainActivity.this, "None", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "None", Toast.LENGTH_SHORT).show();
             }
         }
     }

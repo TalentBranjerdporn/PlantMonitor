@@ -1,23 +1,38 @@
 package talent.plantmonitor;
 
+import java.util.ArrayList;
 import java.util.Random;
+
+import talent.plantmonitor.Model.SensorModel;
 
 /**
  * Created by Talent on 8/10/2017.
+ *
+ * A possibly temporary class to handle global changes and database related information
  */
 
-public class DatabaseClass {
+class DatabaseClass {
 
-    public static int sensLight = 10000;
-    public static int sensWater = 50;
-    public static double sensTemp = 25;
-    public static int sensCond = 240;
+    static int sensLight = 10000;
+    static int sensWater = 50;
+    static double sensTemp = 25;
+    static int sensCond = 240;
 
-    public static final String KEY_CONTACTS = "Sheet1";
-    public static final String KEY_NAME = "Column_1";
-    public static final String KEY_COUNTRY = "Column_2";
+    static final String KEY_SHEET = "Sheet1";
+    static final String KEY_TIME = "Time";
+    static final String KEY_LIGHT = "Light";
+    static final String KEY_WATER = "Moisture";
+    static final String KEY_TEMP = "Temperature";
+    static final String KEY_COND = "Conductivity";
 
-    public static void updateReadings() {
+    static ArrayList<SensorModel> sensorModels;
+
+    static SensorModel getLastModel() {
+        SensorModel model = sensorModels.get(sensorModels.size()-1);
+        return model;
+    }
+
+    static void updateReadings() {
         Random rnd = new Random();
         sensLight = rnd.nextInt(100000);
         sensWater = rnd.nextInt(100);
@@ -25,7 +40,7 @@ public class DatabaseClass {
         sensCond = rnd.nextInt(1500);
     }
 
-    public final static String plantNames[] = {
+    final static String plantNames[] = {
             "Tomato",
             "Lettuce",
             "Brocolli",
@@ -38,7 +53,7 @@ public class DatabaseClass {
             "Pumpkin"
     };
 
-    public final static int plantImg[] = {
+    final static int plantImg[] = {
             R.drawable.img_tomato,
             R.drawable.img_lettuce,
             R.drawable.img_broccoli,
@@ -51,7 +66,7 @@ public class DatabaseClass {
             R.drawable.img_pumpkin
     };
 
-    public final static int minTemps[] = {
+    final static int minTemps[] = {
             10,
             7,
             10,
@@ -64,7 +79,7 @@ public class DatabaseClass {
             10
     };
 
-    public final static int maxTemps[] = {
+    final static int maxTemps[] = {
             30,
             25,
             30,
@@ -77,7 +92,7 @@ public class DatabaseClass {
             30
     };
 
-    public final static int soilWater[] = {
+    final static int soilWater[] = {
             50,
             60,
             70,
@@ -90,7 +105,7 @@ public class DatabaseClass {
             40
     };
 
-    public final static int levelLight[] = {
+    final static int levelLight[] = {
             5,
             5,
             5,
